@@ -1,4 +1,4 @@
-**FastAPI + Ollama**
+*FastAPI + Ollama*
 
 This repository is a collection of Python exercises designed to practice building AI applications and agentic workflows using FastAPI and Ollama. The exercises gradually cover everything from the basics of creating REST APIs to integrating large language models, designing agents, connecting external tools, adding retrieval-augmented generation (RAG), and preparing production-ready deployments.
 
