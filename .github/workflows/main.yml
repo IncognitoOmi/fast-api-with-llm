@@ -3,7 +3,7 @@ name: Run RSI Agents Every 5 Minutes
 # Trigger workflow every 5 minutes
 on:
   schedule:
-    - cron: '*/5 * * * *'  # har 5 minute
+    - cron: '*/1 * * * *'  # har minute
   workflow_dispatch:  # optional, manual trigger ke liye
 
 jobs:
