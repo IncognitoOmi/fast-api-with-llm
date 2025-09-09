@@ -68,6 +68,10 @@ class AlertAgent(BaseAgent):
         requests.post(url, json=payload)
 
     def run(self, df: pd.DataFrame, symbol="BTCUSDT"):
+        if df.empty:
+            print(f"No data fetched for {symbol}, skipping alert.")
+            return
+        
         latest = df.iloc[-1]
         rsi = latest["rsi"]
         price = latest["close"]
