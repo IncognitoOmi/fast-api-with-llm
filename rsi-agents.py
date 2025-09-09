@@ -20,13 +20,24 @@ class DataAgent(BaseAgent):
         self.symbol = symbol
         self.interval = interval
         self.limit = limit
-
+        
     def run(self):
         url = "https://api.binance.com/api/v3/klines"
         params = {"symbol": self.symbol, "interval": self.interval, "limit": self.limit}
-        resp = requests.get(url, params=params)
-        data = resp.json()
-
+        headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"
+        }
+        try:
+            resp = requests.get(url, params=params, headers=headers, timeout=10)
+            resp.raise_for_status()  # HTTP errors raise exception
+            data = resp.json()
+            if not data:
+                print(f"No data returned from Binance for {self.symbol}")
+                return pd.DataFrame(columns=["timestamp","close"])
+        except Exception as e:
+            print(f"Error fetching data for {self.symbol}: {e}")
+            return pd.DataFrame(columns=["timestamp","close"])
+    
         df = pd.DataFrame(data, columns=[
             "timestamp","open","high","low","close","volume",
             "close_time","quote_asset_volume","num_trades",
@@ -35,6 +46,21 @@ class DataAgent(BaseAgent):
         df["close"] = df["close"].astype(float)
         df["timestamp"] = pd.to_datetime(df["timestamp"], unit="ms")
         return df[["timestamp", "close"]]
+
+    # def run(self):
+    #     url = "https://api.binance.com/api/v3/klines"
+    #     params = {"symbol": self.symbol, "interval": self.interval, "limit": self.limit}
+    #     resp = requests.get(url, params=params)
+    #     data = resp.json()
+
+    #     df = pd.DataFrame(data, columns=[
+    #         "timestamp","open","high","low","close","volume",
+    #         "close_time","quote_asset_volume","num_trades",
+    #         "taker_buy_base","taker_buy_quote","ignore"
+    #     ])
+    #     df["close"] = df["close"].astype(float)
+    #     df["timestamp"] = pd.to_datetime(df["timestamp"], unit="ms")
+    #     return df[["timestamp", "close"]]
 
 
 # =============== RSI Calculation Agent ===============
