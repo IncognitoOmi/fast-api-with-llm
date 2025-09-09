@@ -104,6 +104,7 @@ class OrchestratorAgent(BaseAgent):
 # =============== MAIN LOOP ===============
 if __name__ == "__main__":
     orchestrator = OrchestratorAgent(symbols=["BTCUSDT", "ETHUSDT"])
-    while True:
-        orchestrator.run()
-        time.sleep(300)  # every 5 minutes
+    orchestrator.run()
+    # while True:
+    #     orchestrator.run()
+    #     time.sleep(300)  # every 5 minutes
